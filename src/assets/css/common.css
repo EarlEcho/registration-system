@@ -1,0 +1,45 @@
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0;
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.g-lf {
+    float: left;
+}
+
+.g-rt {
+    float: right;
+}
+
+img {
+    object-fit: cover;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul, ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+a,
+input,
+button {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+input，textarea {
+    outline: none
+}
+
