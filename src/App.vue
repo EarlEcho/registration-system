@@ -51,4 +51,10 @@
         background-color: white;
         border-radius: 10px;
     }
+    .menu-content-w{
+        padding: 30px;
+        background-color: white;
+        margin: 20px;
+        border-radius: 10px;
+    }
 </style>

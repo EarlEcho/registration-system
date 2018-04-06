@@ -7,7 +7,7 @@
                 <el-col :span="6">
                     <el-upload
                         class="avatar-uploader"
-                        action="/"
+                        action="http://192.168.0.107:8085/"
                         :show-file-list="false"
                         :on-success="handleAvatarSuccess">
                         <img v-if="enrollForm.img" :src="enrollForm.img" class="avatar">
@@ -85,6 +85,11 @@
                     ]
                 }
             }
+        },
+        watch:{
+            'enrollForm.img'(val){
+                console.log(val)
+            },
         },
         methods: {
             handleAvatarSuccess() {

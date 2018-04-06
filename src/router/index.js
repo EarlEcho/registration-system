@@ -24,7 +24,11 @@ const MyExam = () => import('@/views/my/myExam')
 //考生须知
 const Instruction = () => import('@/views/my/instruction')
 //成绩查询
-const ExamSearch = () => import('@/views/my/ExamSearch')
+const ExamSearch = () => import('@/views/my/examSearch')
+//准考证打印
+const PrintTicket = () => import('@/views/my/printTicket')
+//个人中心
+const My = () => import('@/views/my/myInfos')
 
 Vue.use(Router)
 
@@ -66,6 +70,14 @@ const router = new Router({
             path: '/exam-search',
             meta: {title: "成绩查询"},
             component: ExamSearch
+        }, {
+            path: '/print-ticket',
+            meta: {title: "准考证打印"},
+            component: PrintTicket
+        }, {
+            path: '/my',
+            meta: {title: "个人中心"},
+            component: My
         }
     ]
 })

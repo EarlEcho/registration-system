@@ -2,12 +2,7 @@
     <div class="instruction-w">
         <left-menu></left-menu>
         <div class="instruction-content-w menu-content-w">
-            <h1>我的报名</h1>
-            <el-table :data="examList" :stripe="true">
-                <el-table-column prop="name" label="考试名称"></el-table-column>
-                <el-table-column prop="time" label="考试时间"></el-table-column>
-                <el-table-column prop="status" label="考试状态"></el-table-column>
-            </el-table>
+            <h1>准考证打印</h1>
         </div>
 
     </div>
@@ -22,10 +17,10 @@
         data() {
             return {
                 isCollapse: false,
-                instruction: {},
-                examList:[{
-
-                }]
+                searchForm: {
+                    name: '',
+                    status: ''
+                },
             }
         },
         methods: {}
@@ -35,7 +30,7 @@
     .instruction-w {
         .instruction-content-w {
             display: inline-block;
-            width: 75%;
+            width:75%;
             vertical-align: top;
 
             h1 {
