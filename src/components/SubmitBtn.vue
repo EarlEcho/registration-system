@@ -21,7 +21,7 @@
                 disable: false
             }
         },
-        props: ['submitUrl', 'submitMethod', 'submitData', 'submitHandler', 'submitFormRef', 'btnText', 'beforeSubmit'],
+        props: ['submitUrl', 'submitMethod', 'submitData', 'submitHandler', 'btnText', 'beforeSubmit'],
         mounted: function () {
             this.buttonText = this.btnText || this.buttonText;
             this.loadingText = "正在" + this.buttonText;
@@ -33,7 +33,7 @@
                         return
                     }
                 }
-
+                console.log(this.submitData);
                 this.loading = true;
                 this.buttonText = "正在" + this.buttonText;
                 this.disable = true;
@@ -58,7 +58,10 @@
                     }).then((response) => {
                         this.afterSubmit(response);
                     }).catch((response) => {
-                        fuctions.toast('未知错误,请重试。','top');
+                        this.$message({
+                            message: '未知错误,请重试。',
+                            type: 'warning'
+                        });
                         setTimeout(()=>{
                             window.location.reload(true);
                         },1000)
@@ -82,7 +85,10 @@
                 if (result.code == 0){
                     this.submitHandler(result);
                 } else {
-                    fuctions.toast(result.msg,'top')
+                    this.$message({
+                        message: result.msg,
+                        type: 'warning'
+                    });
                     return;
                 }
 

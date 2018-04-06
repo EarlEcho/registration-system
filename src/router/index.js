@@ -10,6 +10,9 @@ const SingIn = () => import('@/views/singIn')
 //登录
 const SingUp = () => import('@/views/singUp')
 
+//忘记密码
+const FindPwd = () => import('@/views/findPwd')
+
 Vue.use(Router)
 
 const router = new Router({
@@ -26,6 +29,10 @@ const router = new Router({
             path: '/sing-in',
             meta: {title: "注册"},
             component: SingIn
+        }, {
+            path: '/find-pwd',
+            meta: {title: "忘记密码"},
+            component: FindPwd
         }
     ]
 })

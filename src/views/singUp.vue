@@ -7,30 +7,30 @@
             <div class="sing-in-form">
                 <h1 class="sing-title">登录</h1>
                 <el-form :model="singUpForm" :rules="rules" ref="singUpForm" class="demo-singUpForm">
-                    <el-form-item prop="name">
-                        <p class="sing-form-item-title">用户名</p>
-                        <el-input v-model="singUpForm.name" placeholder="请输入用户名">
+                    <el-form-item prop="username">
+                        <p class="sing-form-item-title">邮箱</p>
+                        <el-input v-model="singUpForm.username" placeholder="请输入邮箱">
                             <i slot="prefix" class="icon ion-android-person sing-icon"></i>
                         </el-input>
                     </el-form-item>
-                    <el-form-item prop="pwd">
+                    <el-form-item prop="password">
                         <p class="sing-form-item-title">密码</p>
-                        <el-input type="password" v-model="singUpForm.pwd" placeholder="请输入密码">
+                        <el-input type="password" v-model="singUpForm.password" placeholder="请输入密码">
                             <i slot="prefix" class="icon ion-android-lock sing-icon"></i>
                         </el-input>
                     </el-form-item>
                     <br>
                     <el-form-item>
-                        <submit-btn submit-url="/" submit-method="POST"
+                        <submit-btn submit-url="/regs/sys/login" submit-method="POST"
                                     :before-submit="beforeSubmit"
-                                    :submit-data="submitForm"
-                                    :submit-handler="submitSuccess" submit-form-ref="submitForm"
+                                    :submit-data="singUpForm"
+                                    :submit-handler="submitSuccess"
                                     btn-text="登录"></submit-btn>
                     </el-form-item>
                 </el-form>
                 <p class="sing-other-action">
                     <router-link to="/sing-in" class="g-lf">立即注册</router-link>
-                    <router-link to="/" class="g-rt">忘记密码？</router-link>
+                    <router-link to="/find-pwd" class="g-rt">忘记密码？</router-link>
                 </p>
             </div>
         </div>
@@ -50,14 +50,15 @@
         data() {
             return {
                 singUpForm: {
-                    name: '',
-                    pwd: ''
+                    username: '',
+                    password: ''
                 },
                 rules: {
-                    name: [
-                        {required: true, message: '请输入用户名', trigger: 'blur'},
+                    username: [
+                        {required: true, message: '请输入邮箱地址', trigger: 'blur'},
+                        {type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur'},
                     ],
-                    pwd: [
+                    password: [
                         {required: true, message: '请输入密码', trigger: 'blur'},
                         {min: 6, max: 12, message: '密码长度为6-12个字符', trigger: 'blur'}
                     ]
@@ -67,24 +68,23 @@
         methods: {
             //登录表单提交前
             beforeSubmit() {
-                return true;
+                let flag = 0;
+                this.$refs.singUpForm.validate((valid) => {
+                    if (valid) {
+                        console.log('成功');
+                        flag = 1;
+                    } else {
+                        console.log('error submit!!');
+                        flag = 0;
+                    }
+                });
+                if (flag == 1) {
+                    return true;
+                }
             },
             //登录成功
             submitSuccess() {
 
-            },
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        alert('submit!');
-                    } else {
-                        console.log('error submit!!');
-                        return false;
-                    }
-                });
-            },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
             }
         }
     }
