@@ -13,6 +13,11 @@ const SingUp = () => import('@/views/singUp')
 //忘记密码
 const FindPwd = () => import('@/views/findPwd')
 
+//考试详情
+const ExamDetail = () => import('@/views/exam/detail')
+//考试报名
+const ExamEnroll = () => import('@/views/exam/enroll')
+
 Vue.use(Router)
 
 const router = new Router({
@@ -33,6 +38,14 @@ const router = new Router({
             path: '/find-pwd',
             meta: {title: "忘记密码"},
             component: FindPwd
+        }, {
+            path: '/exam-detail',
+            meta: {title: "考试详情"},
+            component: ExamDetail
+        }, {
+            path: '/exam-enroll',
+            meta: {title: "考试报名"},
+            component: ExamEnroll
         }
     ]
 })

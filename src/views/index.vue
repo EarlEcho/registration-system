@@ -1,11 +1,11 @@
 <template>
     <div class="index-w">
-        <div class="index-header-infos">
+       <!-- <div class="user-header-infos">
             <span>{{userInfos.name}}</span>&emsp;欢迎登录&emsp;&emsp;
             <el-button type="text">
                 <i class="icon ion-power"></i>&nbsp;&nbsp;注销登录&emsp;&emsp;
             </el-button>
-        </div>
+        </div>-->
         <div class="index-content-w">
             <el-form :inline="true" :model="searchForm" class="search-w">
                 <el-form-item>
@@ -74,13 +74,13 @@
 
             },
             resetForm(formName) {
-                this.searchForm ={
+                this.searchForm = {
                     name: '',
                     status: ''
                 }
             },
             enrollEvent() {
-
+                this.$router.push('/exam-detail');
             }
 
         }
@@ -92,18 +92,10 @@
         width: 100%;
         min-height: 100%;
         background: #f5f5f5;
-        .index-header-infos {
-            font-size: 14px;
-            width: 100%;
-            background: #409EFF;
-            text-align: right;
-            span {
-                color: white;
-            }
-        }
+
         .index-content-w {
             width: 90%;
-            margin: 10px auto;
+            margin: 20px auto;
             background: white;
             padding: 20px;
             border-radius: 10px;
