@@ -1,10 +1,10 @@
 <template>
-    <div class="sing-up-w clearfix">
-        <div class="sing-up-left">
+    <div class="sing-in-w clearfix">
+        <div class="sing-in-left">
             <h1>在线通用报名系统</h1>
         </div>
-        <div class="sing-up-right g-rt">
-            <div class="sing-up-form">
+        <div class="sing-in-right g-rt">
+            <div class="sing-in-form">
                 <h1 class="sing-title">登录</h1>
                 <el-form :model="singUpForm" :rules="rules" ref="singUpForm" class="demo-singUpForm">
                     <el-form-item prop="name">
@@ -19,9 +19,17 @@
                             <i slot="prefix" class="icon ion-android-lock sing-icon"></i>
                         </el-input>
                     </el-form-item>
+                    <br>
+                    <el-form-item>
+                        <submit-btn submit-url="/" submit-method="POST"
+                                    :before-submit="beforeSubmit"
+                                    :submit-data="submitForm"
+                                    :submit-handler="submitSuccess" submit-form-ref="submitForm"
+                                    btn-text="登录"></submit-btn>
+                    </el-form-item>
                 </el-form>
                 <p class="sing-other-action">
-                    <router-link to="/" class="g-lf">立即注册</router-link>
+                    <router-link to="/sing-in" class="g-lf">立即注册</router-link>
                     <router-link to="/" class="g-rt">忘记密码？</router-link>
                 </p>
             </div>
@@ -31,9 +39,13 @@
 </template>
 
 <script>
+    import SubmitBtn from '@/components/SubmitBtn'
+
     export default {
         name: '',
-        components: {},
+        components: {
+            SubmitBtn
+        },
         props: [],
         data() {
             return {
@@ -53,6 +65,14 @@
             }
         },
         methods: {
+            //登录表单提交前
+            beforeSubmit() {
+                return true;
+            },
+            //登录成功
+            submitSuccess() {
+
+            },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -70,14 +90,14 @@
     }
 </script>
 <style lang="less">
-    .sing-up-w {
+    .sing-in-w {
         position: absolute;
         width: 100%;
         height: 100%;
         div {
             box-sizing: border-box;
         }
-        .sing-up-left {
+        .sing-in-left {
             position: absolute;
             width: 65%;
             height: 100%;
@@ -87,24 +107,24 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            h1{
+            h1 {
                 color: white;
                 font-weight: normal;
                 font-size: 40px;
                 letter-spacing: 1px;
             }
         }
-        .sing-up-right {
+        .sing-in-right {
             width: 35%;
             height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            .sing-up-form {
+            .sing-in-form {
                 width: 65%;
                 background: white;
             }
-            .el-form-item{
+            .el-form-item {
                 margin-bottom: 15px;
             }
         }
