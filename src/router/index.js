@@ -18,6 +18,14 @@ const ExamDetail = () => import('@/views/exam/detail')
 //考试报名
 const ExamEnroll = () => import('@/views/exam/enroll')
 
+
+//我的考试
+const MyExam = () => import('@/views/my/myExam')
+//考生须知
+const Instruction = () => import('@/views/my/instruction')
+//成绩查询
+const ExamSearch = () => import('@/views/my/ExamSearch')
+
 Vue.use(Router)
 
 const router = new Router({
@@ -46,6 +54,18 @@ const router = new Router({
             path: '/exam-enroll',
             meta: {title: "考试报名"},
             component: ExamEnroll
+        }, {
+            path: '/my-exam',
+            meta: {title: "我的考试"},
+            component: MyExam
+        }, {
+            path: '/instruction',
+            meta: {title: "考生须知"},
+            component: Instruction
+        }, {
+            path: '/exam-search',
+            meta: {title: "成绩查询"},
+            component: ExamSearch
         }
     ]
 })

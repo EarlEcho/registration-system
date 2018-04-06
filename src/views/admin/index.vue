@@ -1,22 +1,5 @@
 <template>
     <div class="index-w">
-        <div class="index-menu-w">
-            <el-menu :router="true" class="el-menu-vertical-demo"
-                     :collapse="isCollapse">
-                <el-menu-item index="/my-exam">
-                    <i class="el-icon-menu"></i>
-                    <span slot="title">我的考试</span>
-                </el-menu-item>
-                <el-menu-item index="/instruction">
-                    <i class="el-icon-document"></i>
-                    <span slot="title">考生须知</span>
-                </el-menu-item>
-                <el-menu-item index="/exam-search">
-                    <i class="el-icon-setting"></i>
-                    <span slot="title">成绩查询</span>
-                </el-menu-item>
-            </el-menu>
-        </div>
         <div class="index-content-w">
             <el-form :inline="true" :model="searchForm" class="search-w">
                 <el-form-item>
@@ -43,7 +26,8 @@
                     <template slot-scope="scope">
                         <el-button @click.native.prevent="enrollEvent(scope.$index)"
                                    type="primary"
-                                   size="small">报名
+                                   size="small">
+                            报名
                         </el-button>
                     </template>
                 </el-table-column>
@@ -60,7 +44,6 @@
         props: [],
         data() {
             return {
-                isCollapse: false,
                 userInfos: {
                     id: 1,
                     name: 'Echo'
@@ -81,12 +64,6 @@
             }
         },
         methods: {
-            handleOpen(key, keyPath) {
-                console.log(key, keyPath);
-            },
-            handleClose(key, keyPath) {
-                console.log(key, keyPath);
-            },
             searchEvent() {
 
             },
@@ -109,21 +86,10 @@
         width: 100%;
         min-height: 100%;
         background: #f5f5f5;
-        .index-menu-w {
-            height: 100%;
-            display: inline-block;
-            background-color: white;
-            .el-menu-vertical-demo:not(.el-menu--collapse) {
-                width: 200px;
-                min-height: 400px;
-            }
-        }
+
         .index-content-w {
-            display: inline-block;
-            width: 80%;
-            position: relative;
-            vertical-align: top;
-            top: 20px;
+            width: 90%;
+            margin: 20px auto;
             background: white;
             padding: 20px;
             border-radius: 10px;

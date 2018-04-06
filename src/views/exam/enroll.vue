@@ -54,6 +54,7 @@
         data() {
             return {
                 enrollForm: {
+                    id:'',
                     img: '', //照片
                     name: '', //姓名
                     schoolNum: '',   //学号
