@@ -25,7 +25,7 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item>
-                    <submit-btn submit-url="/regs/sys/regist" submit-method="GET"
+                    <submit-btn submit-url="/regs/user/regist" submit-method="POST"
                                 :before-submit="beforeSubmit"
                                 :submit-data="singInForm"
                                 :submit-handler="submitSuccess"
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+    import functions from '@/functions/common.js'
     import SubmitBtn from '@/components/SubmitBtn'
 
     export default {
@@ -88,24 +89,47 @@
         methods: {
             //登录表单提交前
             beforeSubmit() {
+                let flag = 0;
                 this.$refs.singInForm.validate((valid) => {
                     if (valid) {
                         console.log('成功');
-                        return true;
+                        flag = 1;
                     } else {
                         console.log('error submit!!');
-                        return false;
-
+                        flag = 0;
                     }
                 });
+                if (flag == 1) {
+                    return true;
+                }
             },
             //登录成功
             submitSuccess() {
-
+                this.$notify({
+                    title: '成功',
+                    message: '注册成功，2秒后跳转到登录页面。',
+                    type: 'success'
+                });
+                setTimeout(() => {
+                    this.$router.replace('/sing-up')
+                },2000)
             },
             //发送邮箱验证码
-            sendMsgEvent(email){
-                console.log(email);
+            sendMsgEvent(email) {
+                if (email !== '') {
+                    functions.postAjax('/regs/user/sendEmail', {address: email}, (data) => {
+                        console.log(data);
+                        if (data.code == 200) {
+                            this.$message.success('邮箱验证码发送成功');
+                        } else {
+                            this.$message.error('出错了！验证码发送失败');
+                        }
+                    });
+                }else{
+                    this.$message.warning('请填写邮箱号');
+                }
+
+
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -131,6 +155,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        background-color: white;
         div {
             box-sizing: border-box;
         }

@@ -9,11 +9,13 @@
                     <el-col :span="6">
                         <el-upload
                             class="avatar-uploader"
-                            action="http://192.168.0.107:8085/"
-                            :show-file-list="false"
-                            :on-success="handleAvatarSuccess">
+                            :data="formData"
+                            action="http://192.168.0.107:8085/regs/apply/fileUpload"
+                            :before-upload="beforeUpload" :on-success="afterUpload"
+                            :show-file-list="false">
                             <img v-if="enrollForm.img" :src="enrollForm.img" class="avatar">
-                            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            <i v-else class="el-icon-plus avatar-uploader-icon"
+                               v-loading.body="loading"></i>
                         </el-upload>
 
                     </el-col>
@@ -21,10 +23,6 @@
                         <el-form-item label="姓名" prop="name">
                             <el-input type="text" v-model="enrollForm.name" auto-complete="off"
                                       placeholder="请输入姓名"></el-input>
-                        </el-form-item>
-                        <el-form-item label="学号" prop="schoolNum">
-                            <el-input type="password" v-model="enrollForm.schoolNum" auto-complete="off"
-                                      placeholder="请输入学号"></el-input>
                         </el-form-item>
                         <el-form-item label="性别" prop="sex">
                             <el-select v-model="enrollForm.sex" placeholder="选择性别">
@@ -40,7 +38,11 @@
                         </el-form-item>
 
                         <el-form-item>
-                            <el-button type="primary" @click="submitForm('enrollForm')">提交</el-button>
+                            <submit-btn submit-url="/regs/apply/applyExam" submit-method="POST"
+                                        :before-submit="beforeSubmit"
+                                        :submit-data="enrollForm"
+                                        :submit-handler="submitSuccess"
+                                        btn-text="注册"></submit-btn>
                             <el-button @click="resetForm('enrollForm')">重置</el-button>
                         </el-form-item>
                     </el-col>
@@ -54,18 +56,36 @@
 
 <script>
     import LeftMenu from '@/components/leftMenu'
+    import SubmitBtn from '@/components/SubmitBtn'
 
     export default {
         name: '',
-        components: {LeftMenu},
+        components: {LeftMenu, SubmitBtn},
         props: [],
         data() {
+            var checkId = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入身份证号码'));
+                } else {
+                    callback();
+                }
+            };
+            var checkMobile = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入手机号'));
+                } else if (value.length !== 11) {
+                    callback(new Error('手机号格式错误'));
+                } else {
+                    callback();
+                }
+            };
             return {
+                formData: {},
+                loading: false,
                 enrollForm: {
                     id: '',
                     img: '', //照片
                     name: '', //姓名
-                    schoolNum: '',   //学号
                     sex: '', //性别
                     idCard: '',  //身份证号
                     mobile: '',  //电话号码
@@ -73,23 +93,16 @@
                 },
                 enrollRules: {
                     name: [
-                        {required: true, message: '请输入邮箱地址', trigger: 'blur'},
-                        {type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur'},
-                    ],
-                    schoolNum: [
-                        {required: true, message: '请输入邮箱验证码', trigger: 'blur'},
-                        {min: 4, message: '验证码格式错误', trigger: 'blur'},
+                        {required: true, message: '请输入姓名', trigger: 'blur'},
                     ],
                     sex: [
-                        {required: true, message: '请输入邮箱验证码', trigger: 'blur'},
+                        {required: true, message: '请选择性别', trigger: 'blur'},
                     ],
                     idCard: [
-                        {required: true, message: '请输入密码', trigger: 'blur'},
-                        {min: 6, max: 12, message: '密码长度为6-12个字符', trigger: 'blur'}
+                        {required: true, validator: checkId, trigger: 'blur'}
                     ],
                     mobile: [
-                        {required: true, message: '请输入密码', trigger: 'blur'},
-                        {min: 6, max: 12, message: '密码长度为6-12个字符', trigger: 'blur'}
+                        {required: true, validator: checkMobile, trigger: 'blur'}
                     ]
                 }
             }
@@ -97,7 +110,27 @@
         methods: {
             handleAvatarSuccess() {
 
-            }
+            },
+            beforeSubmit() {
+
+            },
+            submitSuccess() {
+
+            },
+            beforeUpload: function (file) {
+                if (file.size / 1024 > this.sizeLimit) {
+                    this.$message.error(this.tips);
+                    return false;
+                }
+
+                this.loading = true;
+            },
+            afterUpload: function (response, file, fileList) {
+                console.log(response.data);
+                this.enrollForm.img = response.data;
+                this.loading = false;
+            },
+
         }
     }
 </script>
@@ -118,7 +151,7 @@
                 margin-bottom: 15px;
             }
         }
-        .enroll-form-w{
+        .enroll-form-w {
             width: 80%;
             margin-top: 40px;
         }
@@ -145,9 +178,9 @@
             height: 178px;
             display: block;
         }
-        .el-form-item__content{
+        .el-form-item__content {
             width: 320px;
-            .el-select{
+            .el-select {
                 width: 100%;
             }
         }

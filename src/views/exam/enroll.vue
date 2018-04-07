@@ -3,7 +3,7 @@
         <h1>填写个人资料</h1>
         <el-form :model="enrollForm" ref="enrollForm" label-width="100px"
                  class="enroll-form-w" :rules="enrollRules">
-            <el-row >
+            <el-row>
                 <el-col :span="6">
                     <el-upload
                         class="avatar-uploader"
@@ -17,10 +17,8 @@
                 </el-col>
                 <el-col :span="18">
                     <el-form-item label="姓名" prop="name">
-                        <el-input type="text" v-model="enrollForm.name" auto-complete="off" placeholder="请输入姓名"></el-input>
-                    </el-form-item>
-                    <el-form-item label="学号" prop="schoolNum">
-                        <el-input type="password" v-model="enrollForm.schoolNum" auto-complete="off" placeholder="请输入学号"></el-input>
+                        <el-input type="text" v-model="enrollForm.name" auto-complete="off"
+                                  placeholder="请输入姓名"></el-input>
                     </el-form-item>
                     <el-form-item label="性别" prop="sex">
                         <el-select v-model="enrollForm.sex" placeholder="选择性别">
@@ -52,42 +50,50 @@
         components: {},
         props: [],
         data() {
+            var checkId = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入身份证号码'));
+                } else {
+                    callback();
+                }
+            };
+            var checkMobile = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('请输入手机号'));
+                } else if (value.length !== 11) {
+                    callback(new Error('手机号格式错误'));
+                } else {
+                    callback();
+                }
+            };
             return {
                 enrollForm: {
-                    id:'',
+                    id: '',
                     img: '', //照片
                     name: '', //姓名
-                    schoolNum: '',   //学号
-                    sex:'', //性别
+                    sex: '', //性别
                     idCard: '',  //身份证号
                     mobile: '',  //电话号码
                     // express
                 },
                 enrollRules: {
                     name: [
-                        {required: true, message: '请输入邮箱地址', trigger: 'blur'},
-                        {type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur'},
+                        {required: true, message: '请输入姓名', trigger: 'blur'},
                     ],
-                    schoolNum: [
-                        {required: true, message: '请输入邮箱验证码', trigger: 'blur'},
-                        {min: 4, message: '验证码格式错误', trigger: 'blur'},
-                    ],
-                    sex:[
-                        {required: true, message: '请输入邮箱验证码', trigger: 'blur'},
+                    sex: [
+                        {required: true, message: '请选择性别', trigger: 'blur'},
                     ],
                     idCard: [
-                        {required: true, message: '请输入密码', trigger: 'blur'},
-                        {min: 6, max: 12, message: '密码长度为6-12个字符', trigger: 'blur'}
+                        {validator: checkId, trigger: 'blur'}
                     ],
                     mobile: [
-                        {required: true, message: '请输入密码', trigger: 'blur'},
-                        {min: 6, max: 12, message: '密码长度为6-12个字符', trigger: 'blur'}
+                        {validator: checkMobile, trigger: 'blur'}
                     ]
                 }
             }
         },
-        watch:{
-            'enrollForm.img'(val){
+        watch: {
+            'enrollForm.img'(val) {
                 console.log(val)
             },
         },
@@ -104,7 +110,7 @@
             font-size: 28px;
             font-weight: normal;
         }
-        .enroll-form-w{
+        .enroll-form-w {
             width: 80%;
             margin-top: 40px;
         }
@@ -131,9 +137,9 @@
             height: 178px;
             display: block;
         }
-        .el-form-item__content{
+        .el-form-item__content {
             width: 320px;
-            .el-select{
+            .el-select {
                 width: 100%;
             }
         }

@@ -36,47 +36,47 @@ const router = new Router({
     routes: [
         {
             path: '/',
-            meta: {title: "首页"},
+            meta: {title: "首页", auth: true},
             component: Index
         }, {
             path: '/sing-up',
-            meta: {title: "登录"},
+            meta: {title: "登录", auth: true},
             component: SingUp
         }, {
             path: '/sing-in',
-            meta: {title: "注册"},
+            meta: {title: "注册", auth: true},
             component: SingIn
         }, {
             path: '/find-pwd',
-            meta: {title: "忘记密码"},
+            meta: {title: "忘记密码", auth: true},
             component: FindPwd
         }, {
             path: '/exam-detail',
-            meta: {title: "考试详情"},
+            meta: {title: "考试详情", auth: true},
             component: ExamDetail
         }, {
             path: '/exam-enroll',
-            meta: {title: "考试报名"},
+            meta: {title: "考试报名", auth: true},
             component: ExamEnroll
         }, {
             path: '/my-exam',
-            meta: {title: "我的考试"},
+            meta: {title: "我的考试", auth: true},
             component: MyExam
         }, {
             path: '/instruction',
-            meta: {title: "考生须知"},
+            meta: {title: "考生须知", auth: true},
             component: Instruction
         }, {
             path: '/exam-search',
-            meta: {title: "成绩查询"},
+            meta: {title: "成绩查询", auth: true},
             component: ExamSearch
         }, {
             path: '/print-ticket',
-            meta: {title: "准考证打印"},
+            meta: {title: "准考证打印", auth: true},
             component: PrintTicket
         }, {
             path: '/my',
-            meta: {title: "个人中心"},
+            meta: {title: "个人中心", auth: true},
             component: My
         }
     ]
@@ -84,6 +84,8 @@ const router = new Router({
 
 
 router.beforeEach((to, from, next) => {
+
+
     if (to.meta.title) {//如果设置标题，拦截后设置标题
         document.title = to.meta.title
     }
@@ -92,6 +94,7 @@ router.beforeEach((to, from, next) => {
     if (to.matched.length === 0) {//匹配不到相对应的路由时，跳转到首页
         from.name ? next({name: from.name}) : next('/')
     }
+
     next()
 })
 

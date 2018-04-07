@@ -21,7 +21,7 @@
                     </el-form-item>
                     <br>
                     <el-form-item>
-                        <submit-btn submit-url="/regs/sys/login" submit-method="POST"
+                        <submit-btn submit-url="/regs/user/login" submit-method="POST"
                                     :before-submit="beforeSubmit"
                                     :submit-data="singUpForm"
                                     :submit-handler="submitSuccess"
@@ -83,8 +83,15 @@
                 }
             },
             //登录成功
-            submitSuccess() {
-
+            submitSuccess(res) {
+                this.$notify({
+                    title: '成功',
+                    message: '登录成功，2秒后跳转到首页。',
+                    type: 'success'
+                });
+                setTimeout(() => {
+                    this.$router.replace('/')
+                },2000)
             }
         }
     }
@@ -94,6 +101,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
+        background-color: white;
         div {
             box-sizing: border-box;
         }

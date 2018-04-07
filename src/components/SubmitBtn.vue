@@ -9,8 +9,7 @@
 
 <script>
     import axios from '../../config/http'
-    import fuctions from '@/functions/common'
-
+    import functions from '@/functions/common.js'
     export default {
         components: {},
         name: 'submit-btn',
@@ -44,7 +43,6 @@
                         data: this.submitData
                     }).then((response) => {
                         this.afterSubmit(response);
-
                     }).catch((response) => {
                         if(response.message === 'forceRefresh') {
                             window.location.reload(true)
@@ -80,9 +78,9 @@
                 //多条form相关的错误信息，增加rules, 且显示一次后不再有效
                 var triggerCountFromServer = 0;
                 //处理返回结果
-                var result = response.data;
+                var result = response;
                 console.log(result);
-                if (result.code == 0){
+                if (result.status == 200){
                     this.submitHandler(result);
                 } else {
                     this.$message({

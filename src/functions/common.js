@@ -7,7 +7,7 @@ let functions = {
             method: 'get',
             url: url,
         }).then((response) => {
-            callback(response.data.Body);
+            callback(response.data);
         }).catch((response) => {
         });
     },
@@ -18,71 +18,62 @@ let functions = {
             url: url,
             data: data
         }).then((response) => {
-            callback(response.data.Body);
+            callback(response.data);
         }).catch((response) => {
         });
     },
-    //标准时间格式转年月日
-    filterTime(date) {
-        var y = date.getFullYear();
-        var m = date.getMonth() + 1;
-        m = m < 10 ? ('0' + m) : m;
-        var d = date.getDate();
-        d = d < 10 ? ('0' + d) : d;
-        var h = date.getHours();
-        var minute = date.getMinutes();
-        minute = minute < 10 ? ('0' + minute) : minute;
-        return y + '-' + m + '-' + d + ' ' + h + ':' + minute;
-    },
-
-    //在url后面增加参数
-    appendUrlParams(url, params) {
-        if (url.indexOf('?') > 0) {
-            return url + '&' + params;
+    //时间戳转 xxxx-xx-xx
+    timestampToshortText(value) {
+        if (value == '' || value == undefined) {
+            return
         } else {
-            return url + '?' + params;
+            var padding0 = function (m) {
+                return m < 10 ? '0' + m : m
+            };
+            var time = new Date(value);
+            var y = time.getFullYear();
+            var m = time.getMonth() + 1;
+            var d = time.getDate();
+            return y + '-' + padding0(m) + '-' + padding0(d)
         }
     },
-    //循环
-    foreach(arr, func) {
-        for (var i in arr) {
-            if (func(i, arr[i]) === false) {
-                return false;
-            }
+//时间戳转 xxxx-xx-xx xx:xx(分)
+    timestampToMText(value) {
+        if (value == '' || value == undefined) {
+            return
+        } else {
+            var padding0 = function (m) {
+                return m < 10 ? '0' + m : m
+            };
+
+            var time = new Date(value * 1000);
+            var y = time.getFullYear();
+            var m = time.getMonth() + 1;
+            var d = time.getDate();
+            var h = time.getHours();
+            var mm = time.getMinutes();
+            return y + '-' + padding0(m) + '-' + padding0(d) + ' ' + padding0(h) + ':' + padding0(mm);
         }
-        return true;
     },
-    //克隆
-    clone(obj) {
-        // Handle the 3 simple types, and null or undefined
-        if (null == obj || "object" != typeof obj) return obj;
 
-        // Handle Date
-        if (obj instanceof Date) {
-            var copy = new Date();
-            copy.setTime(obj.getTime());
-            return copy;
+    //时间戳转 xxxx-xx-xx xx:xx(秒)
+    timestampToLongText(value) {
+        if (value == '' || value == undefined) {
+            return
+        } else {
+            var padding0 = function (m) {
+                return m < 10 ? '0' + m : m
+            };
+
+            var time = new Date(value * 1000);
+            var y = time.getFullYear();
+            var m = time.getMonth() + 1;
+            var d = time.getDate();
+            var h = time.getHours();
+            var mm = time.getMinutes();
+            var s = time.getSeconds();
+            return y + '-' + padding0(m) + '-' + padding0(d) + ' ' + padding0(h) + ':' + padding0(mm) + ':' + padding0(s);
         }
-
-        // Handle Array
-        if (obj instanceof Array) {
-            var copy = [];
-            for (var i = 0; i < obj.length; ++i) {
-                copy[i] = dz.utils.clone(obj[i]);
-            }
-            return copy;
-        }
-
-        // Handle Object
-        if (obj instanceof Object) {
-            var copy = {};
-            for (var attr in obj) {
-                if (obj.hasOwnProperty(attr)) copy[attr] = dz.utils.clone(obj[attr]);
-            }
-            return copy;
-        }
-
-        throw new Error("Unable to copy obj! Its type isn't supported.");
     },
 
 };
