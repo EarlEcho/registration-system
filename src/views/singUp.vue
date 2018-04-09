@@ -109,7 +109,8 @@
             position: absolute;
             width: 65%;
             height: 100%;
-            background: url("../assets/image/loginbg.png");
+            /*background: url("../assets/image/loginbg.png");*/
+            background-color: #3a8ee6;
             background-size: 102%;
             background-repeat: no-repeat;
             display: flex;
