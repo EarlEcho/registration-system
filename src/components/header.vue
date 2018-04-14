@@ -32,6 +32,8 @@
 <style lang="less">
 
     .user-header-infos {
+        position: fixed;
+        z-index: 3;
         font-size: 14px;
         width: 100%;
         background: #409EFF;

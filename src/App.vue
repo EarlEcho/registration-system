@@ -60,6 +60,9 @@
         padding: 30px;
         background-color: white;
         margin: 20px;
+        position: absolute;
         border-radius: 10px;
+        left: 200px;
+        top:40px;
     }
 </style>

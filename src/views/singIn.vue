@@ -25,7 +25,7 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item>
-                    <submit-btn submit-url="/regs/user/regist" submit-method="POST"
+                    <submit-btn submit-url="/user/pub/regist" submit-method="POST"
                                 :before-submit="beforeSubmit"
                                 :submit-data="singInForm"
                                 :submit-handler="submitSuccess"
@@ -117,7 +117,7 @@
             //发送邮箱验证码
             sendMsgEvent(email) {
                 if (email !== '') {
-                    functions.postAjax('/regs/user/sendEmail', {address: email}, (data) => {
+                    functions.postAjax('/user/sendEmail', {address: email}, (data) => {
                         console.log(data);
                         if (data.code == 200) {
                             this.$message.success('邮箱验证码发送成功');

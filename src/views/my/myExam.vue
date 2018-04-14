@@ -1,5 +1,6 @@
 <template>
     <div class="instruction-w">
+        <my-header></my-header>
         <left-menu></left-menu>
         <div class="instruction-content-w menu-content-w">
             <h1>我的报名</h1>
@@ -14,10 +15,12 @@
 </template>
 
 <script>
+    import MyHeader from '@/components/header'
+
     import LeftMenu from '@/components/leftMenu'
     export default {
         name: '',
-        components: {LeftMenu},
+        components: {LeftMenu,MyHeader},
         props: [],
         data() {
             return {

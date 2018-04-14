@@ -1,5 +1,7 @@
 <template>
     <div class="exam-detail-content-w module-content-w">
+        <my-header></my-header>
+
         <h1>{{examInfos.examName}}</h1>
         <p>报名时间：{{examInfos.applyStart | time}}——{{examInfos.applyEnd | time}}</p>
         <p>考试时间：{{examInfos.examStart | time}}——{{examInfos.examEnd | time}}</p>
@@ -7,7 +9,7 @@
         <p>报名费用：{{examInfos.payMoney}}元</p>
 
         <div class="enroll-btn">
-            <router-link :to="'/exam-enroll?id='+ examId" >
+            <router-link :to="'/exam-enroll?id='+ examId">
                 <el-button type="primary">我要报名</el-button>
             </router-link>
         </div>
@@ -15,15 +17,17 @@
 </template>
 
 <script>
+    import MyHeader from '@/components/header'
+
     import functions from '@/functions/common.js'
 
     export default {
         name: '',
-        components: {},
+        components: {MyHeader},
         props: [],
         data() {
             return {
-                examId:'',
+                examId: '',
                 userInfos: {
                     id: 1,
                     name: 'Echo'
@@ -31,8 +35,8 @@
                 examInfos: {}
             }
         },
-        filters:{
-            time(val){
+        filters: {
+            time(val) {
                 return functions.timestampToshortText(val)
             }
         },

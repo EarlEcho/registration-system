@@ -46,6 +46,7 @@
 </script>
 <style lang="less">
     .index-menu-w {
+        position: fixed;
         width: 200px;
         height: 100%;
         display: inline-block;

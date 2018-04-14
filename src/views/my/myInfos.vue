@@ -1,5 +1,6 @@
 <template>
     <div class="my-infos-w">
+        <my-header></my-header>
         <left-menu></left-menu>
         <div class="my-infos-content-w menu-content-w">
             <h1>个人中心</h1>
@@ -56,11 +57,13 @@
 
 <script>
     import LeftMenu from '@/components/leftMenu'
+    import MyHeader from '@/components/header'
+
     import SubmitBtn from '@/components/SubmitBtn'
 
     export default {
         name: '',
-        components: {LeftMenu, SubmitBtn},
+        components: {LeftMenu, SubmitBtn, MyHeader},
         props: [],
         data() {
             var checkId = (rule, value, callback) => {
@@ -149,6 +152,9 @@
             p {
                 line-height: 30px;
                 margin-bottom: 15px;
+            }
+            .submit-btn {
+                display: inline-block;
             }
         }
         .enroll-form-w {

@@ -21,7 +21,7 @@
                     </el-form-item>
                     <br>
                     <el-form-item>
-                        <submit-btn submit-url="/regs/user/login" submit-method="POST"
+                        <submit-btn submit-url="/regs/private/user/pub/login" submit-method="POST"
                                     :before-submit="beforeSubmit"
                                     :submit-data="singUpForm"
                                     :submit-handler="submitSuccess"
@@ -91,7 +91,7 @@
                 });
                 setTimeout(() => {
                     this.$router.replace('/')
-                },2000)
+                }, 2000)
             }
         }
     }

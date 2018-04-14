@@ -1,5 +1,6 @@
 <template>
     <div class="enroll-w module-content-w">
+        <my-header></my-header>
         <h1>填写个人资料</h1>
         <el-form :model="enrollForm" ref="enrollForm" label-width="100px"
                  class="enroll-form-w" :rules="enrollRules">
@@ -45,9 +46,11 @@
 </template>
 
 <script>
+    import MyHeader from '@/components/header'
+
     export default {
         name: '',
-        components: {},
+        components: {MyHeader},
         props: [],
         data() {
             var checkId = (rule, value, callback) => {
