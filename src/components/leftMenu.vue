@@ -47,6 +47,7 @@
 <style lang="less">
     .index-menu-w {
         position: fixed;
+        top: 40px;
         width: 200px;
         height: 100%;
         display: inline-block;
