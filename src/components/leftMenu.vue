@@ -2,7 +2,7 @@
     <div class="index-menu-w">
         <el-menu :router="true" class="el-menu-vertical-demo"
                  :collapse="isCollapse">
-            <el-menu-item index="/">
+            <el-menu-item index="/home">
                 <i class="el-icon-star-on"></i>
                 <span slot="title">首页</span>
             </el-menu-item>
@@ -13,15 +13,7 @@
             </el-menu-item>
             <el-menu-item index="/instruction">
                 <i class="el-icon-document"></i>
-                <span slot="title">考生须知</span>
-            </el-menu-item>
-            <el-menu-item index="/exam-search">
-                <i class="el-icon-zoom-in"></i>
-                <span slot="title">成绩查询</span>
-            </el-menu-item>
-            <el-menu-item index="/print-ticket">
-                <i class="el-icon-printer"></i>
-                <span slot="title">准考证打印</span>
+                <span slot="title">通知公告</span>
             </el-menu-item>
             <el-menu-item index="/my">
                 <i class="el-icon-setting"></i>

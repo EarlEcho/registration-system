@@ -62,7 +62,7 @@
                         });
                         setTimeout(()=>{
                             window.location.reload(true);
-                        },1000)
+                        },1500)
                         if(response.message === 'forceRefresh') {
                             window.location.reload(true);
                         }
@@ -96,8 +96,7 @@
 </script>
 <style lang="less">
     .submit-btn {
-        button {
-            width: 100%;
-        }
+        display: inline-block;
+
     }
 </style>

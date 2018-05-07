@@ -21,7 +21,7 @@
                     </el-form-item>
                     <br>
                     <el-form-item>
-                        <submit-btn submit-url="/regs/private/user/pub/login" submit-method="POST"
+                        <submit-btn submit-url="/private/user/pub/login" submit-method="POST"
                                     :before-submit="beforeSubmit"
                                     :submit-data="singUpForm"
                                     :submit-handler="submitSuccess"
@@ -39,6 +39,7 @@
 </template>
 
 <script>
+    import axios from '../../config/http'
     import SubmitBtn from '@/components/SubmitBtn'
 
     export default {
@@ -84,14 +85,25 @@
             },
             //登录成功
             submitSuccess(res) {
-                this.$notify({
-                    title: '成功',
-                    message: '登录成功，2秒后跳转到首页。',
-                    type: 'success'
-                });
-                setTimeout(() => {
-                    this.$router.replace('/')
-                }, 2000)
+                if(res.data.code==200){
+                    this.$notify({
+                        title: '成功',
+                        message: '登录成功，2秒后跳转到首页。',
+                        type: 'success'
+                    });
+                    localStorage.setItem('sid', (res.data.data));
+                    axios.defaults.headers.sid = (localStorage.sid);
+                    setTimeout(() => {
+                        this.$router.replace('/home')
+                    }, 2000)
+                }else{
+                    this.$notify({
+                        title: '提示',
+                        message: res.data.msg,
+                        type: 'warning'
+                    });
+                }
+
             }
         }
     }
@@ -102,6 +114,12 @@
         width: 100%;
         height: 100%;
         background-color: white;
+        .submit-btn{
+            width: 100%;
+            button{
+                width: 100%;
+            }
+        }
         div {
             box-sizing: border-box;
         }

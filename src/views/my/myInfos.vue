@@ -11,39 +11,40 @@
                         <el-upload
                             class="avatar-uploader"
                             :data="formData"
-                            action="http://192.168.0.107:8085/regs/apply/fileUpload"
+                            action="http://47.104.150.0:8085/regs/private/apply/fileUpload"
+                            :headers="upLoadHeader"
                             :before-upload="beforeUpload" :on-success="afterUpload"
                             :show-file-list="false">
-                            <img v-if="enrollForm.img" :src="enrollForm.img" class="avatar">
+                            <img v-if="enrollForm.photoPath" :src="enrollForm.photoPath" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"
                                v-loading.body="loading"></i>
                         </el-upload>
 
                     </el-col>
                     <el-col :span="18">
-                        <el-form-item label="姓名" prop="name">
-                            <el-input type="text" v-model="enrollForm.name" auto-complete="off"
+                        <el-form-item label="姓名" prop="realname">
+                            <el-input type="text" v-model="enrollForm.realname" auto-complete="off"
                                       placeholder="请输入姓名"></el-input>
                         </el-form-item>
                         <el-form-item label="性别" prop="sex">
                             <el-select v-model="enrollForm.sex" placeholder="选择性别">
-                                <el-option label="男" value="0"></el-option>
-                                <el-option label="女" value="1"></el-option>
+                                <el-option label="男" value="男"></el-option>
+                                <el-option label="女" value="女"></el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="身份证" prop="idCard">
-                            <el-input v-model.number="enrollForm.idCard" placeholder="请输入身份证"></el-input>
+                        <el-form-item label="身份证" prop="idcard">
+                            <el-input v-model="enrollForm.idcard" placeholder="请输入身份证"></el-input>
                         </el-form-item>
-                        <el-form-item label="联系电话" prop="mobile">
-                            <el-input v-model.number="enrollForm.mobile" placeholder="请输入联系电话"></el-input>
+                        <el-form-item label="联系电话" prop="phoneNum">
+                            <el-input v-model="enrollForm.phoneNum" placeholder="请输入联系电话"></el-input>
                         </el-form-item>
 
                         <el-form-item>
-                            <submit-btn submit-url="/regs/apply/applyExam" submit-method="POST"
+                            <submit-btn submit-url="/private/user/updateSysUser" submit-method="POST"
                                         :before-submit="beforeSubmit"
                                         :submit-data="enrollForm"
                                         :submit-handler="submitSuccess"
-                                        btn-text="注册"></submit-btn>
+                                        btn-text="提交"></submit-btn>
                             <el-button @click="resetForm('enrollForm')">重置</el-button>
                         </el-form-item>
                     </el-col>
@@ -60,6 +61,7 @@
     import MyHeader from '@/components/header'
 
     import SubmitBtn from '@/components/SubmitBtn'
+    import functions from '@/functions/common.js'
 
     export default {
         name: '',
@@ -67,60 +69,67 @@
         props: [],
         data() {
             var checkId = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请输入身份证号码'));
+                let reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+                if (!reg.test(value)) {
+                    callback(new Error('请输入正确格式的身份证号码'));
                 } else {
                     callback();
                 }
             };
             var checkMobile = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请输入手机号'));
-                } else if (value.length !== 11) {
-                    callback(new Error('手机号格式错误'));
+                if (value.length !== 11) {
+                    callback(new Error('请输入正确格式的手机号'));
                 } else {
                     callback();
                 }
             };
             return {
+                upLoadHeader: {
+                    sid: localStorage.sid
+                },
                 formData: {},
                 loading: false,
                 enrollForm: {
-                    id: '',
-                    img: '', //照片
-                    name: '', //姓名
+                    photoPath: '', //照片
+                    realname: '', //姓名
                     sex: '', //性别
-                    idCard: '',  //身份证号
-                    mobile: '',  //电话号码
-                    // express
+                    idcard: '',  //身份证号
+                    phoneNum: '',  //电话号码
                 },
                 enrollRules: {
-                    name: [
+                    realname: [
                         {required: true, message: '请输入姓名', trigger: 'blur'},
                     ],
                     sex: [
                         {required: true, message: '请选择性别', trigger: 'blur'},
                     ],
-                    idCard: [
+                    idcard: [
                         {required: true, validator: checkId, trigger: 'blur'}
                     ],
-                    mobile: [
+                    phoneNum: [
                         {required: true, validator: checkMobile, trigger: 'blur'}
                     ]
                 }
             }
         },
         methods: {
-            handleAvatarSuccess() {
 
-            },
             beforeSubmit() {
+                console.log(this.enrollForm);
+                return true;
 
             },
             submitSuccess() {
+                this.$notify({
+                    title: '成功',
+                    message: '信息更新成功！',
+                    type: 'success'
+                });
+                this.fetchDate();
 
             },
             beforeUpload: function (file) {
+
                 if (file.size / 1024 > this.sizeLimit) {
                     this.$message.error(this.tips);
                     return false;
@@ -130,10 +139,26 @@
             },
             afterUpload: function (response, file, fileList) {
                 console.log(response.data);
-                this.enrollForm.img = response.data;
+                this.enrollForm.photoPath = response.data;
                 this.loading = false;
             },
 
+            fetchDate() {
+                functions.getAjax('/private/user/getOne', (res) => {
+                    console.log(res);
+                    this.enrollForm = {
+                        photoPath: res.data.photoPath, //照片
+                        realname: res.data.realname, //姓名
+                        sex: res.data.sex, //性别
+                        idcard: res.data.idcard,  //身份证号
+                        phoneNum: res.data.phoneNum,  //电话号码
+                    };
+                });
+            }
+
+        },
+        mounted() {
+            this.fetchDate();
         }
     }
 </script>

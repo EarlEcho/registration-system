@@ -4,14 +4,7 @@
         <left-menu></left-menu>
         <div class="instruction-content-w menu-content-w">
             <h1>准考证打印</h1>
-            <el-row>
-                <el-col :span="6">
 
-                </el-col>
-                <el-col :span="18">
-
-                </el-col>
-            </el-row>
         </div>
     </div>
 </template>

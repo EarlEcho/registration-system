@@ -15,9 +15,20 @@
 
             <!--考试列表-->
             <el-table :data="examList" :stripe="true">
-                <el-table-column prop="examName" label="考试名称"></el-table-column>
+                <el-table-column prop="examName" label="考试名称" show-overflow-tooltip></el-table-column>
+                <el-table-column prop="applyStart" label="报名开始时间" show-overflow-tooltip>
+                    <template slot-scope="scope">
+                        {{scope.row.applyStart | toTime}}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="examStart" label="考试开始时间" show-overflow-tooltip>
+                    <template slot-scope="scope">
+                        {{scope.row.examStart | toTime}}
+                    </template>
+                </el-table-column>
+                <el-table-column prop="payMoney" label="考试费用"></el-table-column>
                 <el-table-column prop="status" label="考试状态"></el-table-column>
-                <el-table-column label="操作">
+                <el-table-column label="操作" width="220">
                     <template slot-scope="scope">
                         <el-button @click.native.prevent="enrollEvent(scope.row)"
                                    type="primary"
@@ -26,6 +37,12 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <div class="pagination-block-w">
+                <el-pagination layout="total,prev, pager, next" :total="pager.totalElements" :size="pager.size"
+                               @current-change="pageChange">
+                </el-pagination>
+            </div>
+
         </div>
     </div>
 </template>
@@ -41,31 +58,49 @@
         props: [],
         data() {
             return {
-
+                pager: {},
                 searchForm: {
                     name: '',
                     // status: ''
                 },
-                examList: [{
-                    examName: '2018年度全国大学生英语四级考试（CTE-4）',
-                    status: '已结束报名'
-                },{
-                    examName: '2018年度全国大学生英语六级考试（CTE-6',
-                    status: '已结束报名'
-                },{
-                    examName: '2018年度蓝桥杯创新科技大赛',
-                    status: '已开始报名'
-                }]
+                examList: []
             }
         },
         mounted() {
-            s
+            this.fetchData();
+        },
+        filters: {
+            toTime(value) {
+                return functions.timestampToLongText(value);
+            }
         },
         methods: {
-            searchEvent() {
-                functions.getAjax('/regs/exam/findAll' + '?pageNum=0&examName=' + this.searchForm.name, (res) => {
-                    console.log(res);
+            //获取数据
+            fetchData() {
+                functions.getAjax('/private/exam/findAll' + '?pageNum=0&examName=' + this.searchForm.name, (res) => {
                     this.examList = res.data.content;
+                    this.pager = {
+                        size: res.data.size,
+                        totalElements: res.data.totalElements,
+                        numberOfElements: res.data.numberOfElements
+                    }
+                });
+            },
+
+            searchEvent() {
+                functions.getAjax('/private/exam/findAll' + '?pageNum=0&examName=' + this.searchForm.name, (res) => {
+                    this.examList = res.data.content;
+                });
+            },
+            pageChange(page) {
+                let currentPage = parseInt(page - 1);
+                functions.getAjax('/private/exam/findAll' + '?pageNum=' + currentPage+ '&examName=' + this.searchForm.name, (res) => {
+                    this.examList = res.data.content;
+                    this.pager = {
+                        size: res.data.size,
+                        totalElements: res.data.totalElements,
+                        numberOfElements: res.data.numberOfElements
+                    }
                 });
             },
             resetForm(formName) {
@@ -86,7 +121,7 @@
         background: #f5f5f5;
         .index-content-w {
             display: inline-block;
-            width: 75%;
+            width: 80%;
             vertical-align: top;
             .search-w {
                 margin-bottom: 10px;

@@ -1,13 +1,11 @@
 <template>
     <div class="instruction-w">
         <my-header></my-header>
-
         <left-menu></left-menu>
         <div class="instruction-content-w menu-content-w">
-            <h1>通知公告</h1>
-            <p>{{notice.announceInfo}}</p>
-        </div>
+            <h1>收藏列表</h1>
 
+        </div>
     </div>
 </template>
 
@@ -15,7 +13,6 @@
     import MyHeader from '@/components/header'
 
     import LeftMenu from '@/components/leftMenu'
-    import functions from '@/functions/common.js'
 
     export default {
         name: '',
@@ -23,24 +20,14 @@
         props: [],
         data() {
             return {
-                notice:{
-
-                }
+                isCollapse: false,
+                searchForm: {
+                    name: '',
+                    status: ''
+                },
             }
         },
-        mounted() {
-            functions.getAjax('/announce/get', (res) => {
-                if(res.code==500){
-                    return;
-                }else{
-                    this.notice = {
-                        id: res.data.id,
-                        announceInfo: res.data.announceInfo
-                    };
-                }
-
-            });
-        }
+        methods: {}
     }
 </script>
 <style lang="less">

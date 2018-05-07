@@ -12,7 +12,7 @@
                     <el-input v-model="singInForm.validate" placeholder="请输入邮箱验证码">
                         <i slot="prefix" class="icon ion-android-person sing-icon"></i>
                     </el-input>
-                    <el-button type="primary" @click="sendMsgEvent(singInForm.username)">获取邮箱验证码</el-button>
+                    <el-button type="primary" :disabled="emailBtnDis" @click="sendMsgEvent(singInForm.username)">{{emailText}}</el-button>
                 </el-form-item>
                 <el-form-item prop="password">
                     <el-input type="password" v-model="singInForm.password" placeholder="请输入密码">
@@ -25,7 +25,7 @@
                     </el-input>
                 </el-form-item>
                 <el-form-item>
-                    <submit-btn submit-url="/user/pub/regist" submit-method="POST"
+                    <submit-btn submit-url="/private/user/pub/regist" submit-method="POST"
                                 :before-submit="beforeSubmit"
                                 :submit-data="singInForm"
                                 :submit-handler="submitSuccess"
@@ -67,6 +67,11 @@
                     password: '',
                     confirmPwd: ''
                 },
+                emailBtnDis: false,
+                emailText: '获取邮箱验证码',
+
+                countDownTimer: null,
+                counter: 60,
                 rules: {
                     username: [
                         {required: true, message: '请输入邮箱地址', trigger: 'blur'},
@@ -117,10 +122,23 @@
             //发送邮箱验证码
             sendMsgEvent(email) {
                 if (email !== '') {
-                    functions.postAjax('/user/sendEmail', {address: email}, (data) => {
+                    functions.postAjax('/private/user/pub/sendEmail', {address: email}, (data) => {
+                        this.emailBtnDis = true;
+                        this.emailText = "60s后重新发送";
+                        let _this = this;
                         console.log(data);
                         if (data.code == 200) {
                             this.$message.success('邮箱验证码发送成功');
+                            _this.countDownTimer = setInterval(() => {
+                                console.log(_this.counter);
+                                _this.counter--;
+                                _this.emailText = _this.counter + "s后重新发送";
+                                console.log(_this.emailText);
+                                if (_this.counter <= 0) {
+                                    _this.reset();
+                                }
+                            }, 1000);
+
                         } else {
                             this.$message.error('出错了！验证码发送失败');
                         }
@@ -128,8 +146,11 @@
                 }else{
                     this.$message.warning('请填写邮箱号');
                 }
-
-
+            },
+            reset: function () {
+                this.emailBtnDis = false;
+                this.emailText = "获取邮箱验证码";
+                clearInterval(this.countDownTimer);
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -156,6 +177,12 @@
         align-items: center;
         justify-content: center;
         background-color: white;
+        .submit-btn{
+            width: 100%;
+            button{
+                width: 100%;
+            }
+        }
         div {
             box-sizing: border-box;
         }

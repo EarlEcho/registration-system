@@ -65,4 +65,9 @@
         left: 200px;
         top:40px;
     }
+
+    .pagination-block-w{
+        text-align: center;
+        margin: 25px 0;
+    }
 </style>

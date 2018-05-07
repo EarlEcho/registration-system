@@ -27,6 +27,10 @@ const Instruction = () => import('@/views/my/instruction')
 const ExamSearch = () => import('@/views/my/examSearch')
 //准考证打印
 const PrintTicket = () => import('@/views/my/printTicket')
+
+
+//收藏列表
+const Collect = () => import('@/views/collect/index')
 //个人中心
 const My = () => import('@/views/my/myInfos')
 
@@ -35,11 +39,11 @@ Vue.use(Router)
 const router = new Router({
     routes: [
         {
-            path: '/',
+            path: '/home',
             meta: {title: "首页", auth: true},
             component: Index
         }, {
-            path: '/sing-up',
+            path: '/',
             meta: {title: "登录", auth: true},
             component: SingUp
         }, {
@@ -74,6 +78,10 @@ const router = new Router({
             path: '/print-ticket',
             meta: {title: "准考证打印", auth: true},
             component: PrintTicket
+        }, {
+            path: '/collect',
+            meta: {title: "收藏列表", auth: true},
+            component: Collect
         }, {
             path: '/my',
             meta: {title: "个人中心", auth: true},
